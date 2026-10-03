@@ -445,9 +445,9 @@ textarea{resize:vertical;min-height:70px;line-height:1.5;}
     const splash = document.getElementById('splash');
     function dismissSplash(){ splash.classList.add('hide'); setTimeout(()=>splash.remove(), 600); }
     // Play sound at ~150ms after logo appears
-    setTimeout(playTing, 280);
+   //  setTimeout(playTing, 280);
     // Stay on splash 2.4s then crossfade out
-    setTimeout(dismissSplash, 2400);
+  //   setTimeout(dismissSplash, 2400);
     // Also dismiss on tap (in case the user is impatient)
     splash.addEventListener('click', dismissSplash, { once:true });
     splash.addEventListener('touchstart', dismissSplash, { once:true, passive:true });
