@@ -409,7 +409,6 @@ textarea{resize:vertical;min-height:70px;line-height:1.5;}
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sine';
-        // Crisp two-note "ti-iiing" rise
         osc.frequency.setValueAtTime(880, ctx.currentTime);
         osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.35);
         gain.gain.setValueAtTime(0.0001, ctx.currentTime);
@@ -420,14 +419,10 @@ textarea{resize:vertical;min-height:70px;line-height:1.5;}
         osc.stop(ctx.currentTime + 1.2);
       } catch(_){}
     }
-    // Splash playback runs once on first user gesture OR after small delay
     const splash = document.getElementById('splash');
     function dismissSplash(){ splash.classList.add('hide'); setTimeout(()=>splash.remove(), 600); }
-    // Play sound at ~150ms after logo appears
     setTimeout(playTing, 280);
-    // Stay on splash 2.4s then crossfade out
     setTimeout(dismissSplash, 2400);
-    // Also dismiss on tap (in case the user is impatient)
     splash.addEventListener('click', dismissSplash, { once:true });
     splash.addEventListener('touchstart', dismissSplash, { once:true, passive:true });
   })();
@@ -443,6 +438,7 @@ textarea{resize:vertical;min-height:70px;line-height:1.5;}
       <div style="position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,#00e5ff,#7c3aed,transparent);"></div>
       <div style="font-size:13px;color:#8aafd4;line-height:1.7;margin-bottom:20px;">Sign in to sync your labels across devices.</div>
 
+      <!-- Google draws the real sign-in button here -->
       <div id="g-btn-slot" style="display:flex;justify-content:center;margin-bottom:10px;min-height:44px;"></div>
 
       <button class="skip-btn" onclick="skipLogin()" style="display:block;margin:0 auto;">Continue as Guest</button>
@@ -450,41 +446,6 @@ textarea{resize:vertical;min-height:70px;line-height:1.5;}
 
     <div style="font-size:11px;color:#3a5070;line-height:1.6;">
       Your data stays on your device
-    </div>
-  </div>
-</div>
-<div id="auth-screen" style="display:flex;flex-direction:column;height:100vh;background:var(--bg);position:relative;z-index:10;align-items:center;justify-content:center;padding:24px;">
-  <div style="text-align:center;max-width:360px;width:100%;">
-    <div style="font-size:3rem;font-weight:700;background:linear-gradient(135deg,#00e5ff,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-2px;margin-bottom:6px;">TubeTag</div>
-    <div style="font-family:'Space Mono',monospace;font-size:11px;color:#4a6080;letter-spacing:3px;margin-bottom:32px;">SMART LAB QR LABELS</div>
-
-    <div style="background:#0d1526;border:1px solid #1a2d5a;border-radius:16px;padding:24px 20px;margin-bottom:16px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,#00e5ff,#7c3aed,transparent);"></div>
-      <div style="font-size:13px;color:#8aafd4;line-height:1.7;margin-bottom:20px;">Sign in to sync your labels across devices.</div>
-
-      <div id="g-btn-slot" style="display:flex;justify-content:center;margin-bottom:10px;min-height:44px;"></div>
-
-      <button class="skip-btn" onclick="skipLogin()" style="display:block;margin:0 auto;">Continue as Guest</button>
-    </div>
-
-    <div style="font-size:11px;color:#3a5070;line-height:1.6;">
-      Your data stays on your device
-    </div>
-  </div>
-</div>
-
-      <!-- Google Sign In -->
-      <div id="g-btn-slot" style="display:flex;justify-content:center;margin-bottom:10px;"></div>
-        <svg class="google-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        Continue with Google
-      </button>
-
-      <button class="skip-btn" onclick="skipLogin()" style="display:block;margin:0 auto;">Continue as Guest</button>
-    </div>
-
-    <div style="font-size:11px;color:#2a3a50;line-height:1.6;">
-      Guest: 20 labels/day · Sign in: Unlimited with Pro<br/>
-      <span style="color:#3a5070;">Your data stays on your device</span>
     </div>
   </div>
 </div>
@@ -909,7 +870,7 @@ textarea{resize:vertical;min-height:70px;line-height:1.5;}
       </div>
 
       <!-- ═════════ HIDDEN DEVELOPER / REVIEWER PANEL ═════════
-           Unlocked by tapping the profile avatar 4 times within 3 seconds. -->
+           Unlocked by tapping the profile avatar 3 times within 5 seconds. -->
       <div class="card" id="dev-panel" style="display:none;background:linear-gradient(135deg,rgba(255,107,138,0.05),rgba(245,200,66,0.05));border:1px solid rgba(245,200,66,0.25);">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
           <div>
@@ -1266,7 +1227,6 @@ textarea{resize:vertical;min-height:70px;line-height:1.5;}
   </div>
 </div>
 
-<!-- ══════ SUCCESS MODAL ══════ -->
 <!-- ══════════ TRACKING MODAL (lifecycle + location + temperature) ══════════ -->
 <div class="modal-overlay" id="track-modal">
   <div class="modal" style="max-height:85vh;overflow-y:auto;">
@@ -1328,6 +1288,7 @@ textarea{resize:vertical;min-height:70px;line-height:1.5;}
   </div>
 </div>
 
+<!-- ══════ SUCCESS MODAL ══════ -->
 <div class="modal-overlay" id="success-modal">
   <div class="modal" style="text-align:center;">
     <div class="modal-handle"></div>
@@ -1408,7 +1369,9 @@ const PRO_PRICE_MONTHLY = 150;
 const PRO_PRICE_ANNUAL = 1000;
 
 // ─── State ───────────────────────────────────────
-let user = JSON.parse(localStorage.getItem('tt_user')||'null');
+let user = null;
+try { user = JSON.parse(localStorage.getItem('tt_user')||'null'); } catch(_){ user = null; }
+
 // ─── Monetization flag ────────────────────────────
 // 🌟 FREE LAUNCH MODE: every user gets full Pro access for free.
 // To re-enable paywall later, set FREE_MODE = false (and the original gating returns).
@@ -1416,9 +1379,6 @@ const FREE_MODE = true;
 let isPro = FREE_MODE ? true : (localStorage.getItem('tt_pro')==='true');
 
 // ─── HIDDEN DEMO MODE (for Play Store reviewers / demos) ───
-//   The topbar avatar OR the profile avatar can be tapped 3 times
-//   within 5 seconds to reveal the Developer panel where reviewers
-//   can toggle Demo Mode.
 function inDemoMode(){ return localStorage.getItem('tt_demo_mode') === '1'; }
 
 let _avTaps = 0, _avTimer = null;
@@ -1426,7 +1386,6 @@ function handleAvatarTap(ev){
   if(ev && ev.stopPropagation) ev.stopPropagation();
   _avTaps++;
 
-  // Tiny visual pulse so the user knows the tap registered
   const target = (ev && ev.currentTarget) || document.getElementById('prof-avatar');
   if(target){
     target.style.transition='transform .15s ease';
@@ -1437,7 +1396,6 @@ function handleAvatarTap(ev){
   clearTimeout(_avTimer);
   _avTimer = setTimeout(()=>{ _avTaps = 0; }, 5000);
 
-  // Show progress on later taps (so user knows they're close)
   if(_avTaps === 2) showToast && showToast('1 more tap…','');
 
   if(_avTaps >= 3){
@@ -1445,7 +1403,6 @@ function handleAvatarTap(ev){
     const panel = document.getElementById('dev-panel');
     if(!panel) return;
     panel.style.display = 'block';
-    // If user is not already on Profile tab, switch them there
     const profileTab = document.querySelector('.tab[onclick*="profile"]');
     if(profileTab && !profileTab.classList.contains('on')){
       try { switchTab('profile', profileTab); } catch(_){}
@@ -1463,7 +1420,6 @@ function toggleDemoMode(on){
   showToast && showToast(on ? '🟢 Demo Mode ON — prints will show a popup' : '⚪️ Demo Mode OFF — real printing restored', '');
 }
 
-// If the dev panel was unlocked in a previous session, keep it visible.
 document.addEventListener('DOMContentLoaded', ()=>{
   if(localStorage.getItem('tt_dev_unlock') === '1'){
     const panel = document.getElementById('dev-panel');
@@ -1471,7 +1427,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const t = document.getElementById('demoModeToggle');
     if(t) t.checked = inDemoMode();
   }
-  // Wire the TOPBAR avatar to also trigger the unlock (in addition to opening Profile)
   const topAv = document.getElementById('user-btn');
   if(topAv){
     topAv.addEventListener('click', handleAvatarTap, true);
@@ -1483,7 +1438,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
   if(!FREE_MODE) return;
   const hideIds = ['plans-card','excel-pro-gate'];
   hideIds.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
-  // Hide ALL "Upgrade to Pro" buttons sprinkled in the UI
   document.querySelectorAll('button, a').forEach(el=>{
     const t = (el.textContent||'').trim().toLowerCase();
     if(t === 'upgrade to pro' || t.startsWith('upgrade to pro')) el.style.display='none';
@@ -1503,20 +1457,37 @@ function checkDayReset(){
   if(todayDate!==today){todayCount=0;todayDate=today;localStorage.setItem('tt_today_date',today);localStorage.setItem('tt_today_count','0');}
 }
 
-// ─── Auth ─────────────────────────────────────────
+// ═══════════════════════════════════════════════════
+//  AUTH — Google Identity Services + Guest
+// ═══════════════════════════════════════════════════
 const GOOGLE_CLIENT_ID = '902365956036-prii5q50gf14cr3jqne38i3pofic1435.apps.googleusercontent.com';
 
+let _googleReady = false;
 function initGoogle(){
-  if(!window.google || !google.accounts){ setTimeout(initGoogle, 300); return; }
-  google.accounts.id.initialize({
-    client_id: GOOGLE_CLIENT_ID,
-    callback: handleGoogleCredential,
-    auto_select: false
+  // Wait until Google's script has loaded
+  if(!window.google || !google.accounts || !google.accounts.id){
+    setTimeout(initGoogle, 300);
+    return;
+  }
+  const slot = document.getElementById('g-btn-slot');
+  if(!slot) return;
+
+  if(!_googleReady){
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleGoogleCredential,
+      auto_select: false
+    });
+    _googleReady = true;
+  }
+  slot.innerHTML = '';
+  google.accounts.id.renderButton(slot, {
+    theme: 'outline',
+    size: 'large',
+    text: 'continue_with',
+    shape: 'rectangular',
+    width: 280
   });
-  google.accounts.id.renderButton(
-    document.getElementById('g-btn-slot'),
-    { theme:'outline', size:'large', text:'continue_with', shape:'rectangular', width:280 }
-  );
 }
 
 function parseJwt(token){
@@ -1527,32 +1498,38 @@ function parseJwt(token){
 }
 
 function handleGoogleCredential(resp){
-  const p = parseJwt(resp.credential);
-  user = {
-    name: p.name,
-    email: p.email,
-    picture: p.picture,
-    initial: (p.name || 'U')[0].toUpperCase(),
-    token: resp.credential
-  };
-  localStorage.setItem('tt_user', JSON.stringify(user));
-  launchApp();
+  try {
+    const p = parseJwt(resp.credential);
+    user = {
+      name: p.name || 'User',
+      email: p.email || '',
+      picture: p.picture || '',
+      initial: ((p.name || p.email || 'U')[0] || 'U').toUpperCase(),
+      token: resp.credential
+    };
+    localStorage.setItem('tt_user', JSON.stringify(user));
+    launchApp();
+  } catch(e){
+    console.error('Google login error', e);
+    showToast('Google sign-in failed. Please try again.','warn');
+  }
 }
 
 function skipLogin(){
-  user = {name:'Guest User', email:'', initial:'G'};
+  user = { name:'Guest User', email:'', initial:'G' };
   launchApp();
 }
 
 function logout(){
   if(!confirm('Log out?')) return;
-  if(window.google && google.accounts) google.accounts.id.disableAutoSelect();
+  if(window.google && google.accounts && google.accounts.id) google.accounts.id.disableAutoSelect();
   localStorage.removeItem('tt_user');
   user = null;
   document.getElementById('main-app').style.display = 'none';
   document.getElementById('auth-screen').style.display = 'flex';
   initGoogle();
 }
+
 function launchApp(){
   document.getElementById('auth-screen').style.display='none';
   document.getElementById('main-app').style.display='flex';
@@ -1614,7 +1591,6 @@ function updatePlanUI(){
   const statusText = document.getElementById('status-text');
 
   if(FREE_MODE){
-    // 🌟 Launch mode — everything unlocked, no Pro/Free distinction.
     badge.style.display = 'none';
     if(statBadge){
       statBadge.style.cssText = 'display:inline-block;background:linear-gradient(135deg,rgba(0,229,255,0.15),rgba(124,58,237,0.12));border:1px solid rgba(0,229,255,0.4);color:#00e5ff;font-size:11px;padding:3px 12px;border-radius:20px;letter-spacing:.6px;';
@@ -1622,7 +1598,6 @@ function updatePlanUI(){
     }
     statusDot && statusDot.classList.add('pro');
     if(statusText) statusText.textContent = 'TUBETAG  ·  UNLIMITED  ·  BLUETOOTH';
-    // Unlock the LARGE / CRYO size buttons
     document.querySelectorAll('.sz-btn.locked').forEach(b=>{
       b.classList.remove('locked');
       b.onclick = null;
@@ -1662,7 +1637,6 @@ function switchTab(t,el){
   if(el){
     el.classList.add('on');
   } else {
-    // find by data or position
     const tabs=document.querySelectorAll('.tab');
     const names=['lab','batch','custom','scan','history','profile'];
     const idx=names.indexOf(t);
@@ -1691,7 +1665,6 @@ let labOrient='horizontal', batchOrient='horizontal', customOrient='horizontal';
 let batchData = [];
 
 // ─── Institute Logo (shared across Sample / Batch / Custom) ───
-//   Persisted in localStorage as { data: 'data:image/png;base64,...', size: 18 }
 function getInstituteLogo(){
   try {
     const raw = localStorage.getItem('tt_logo');
@@ -1748,7 +1721,6 @@ function refreshLogoUI(){
 document.addEventListener('DOMContentLoaded', refreshLogoUI);
 
 function pickOrient(el, mode, orient){
-  // Update visual state of the two pill buttons
   const wrap = el.parentElement;
   wrap.querySelectorAll('.orient-btn').forEach(b=>{
     b.classList.remove('on');
@@ -1794,9 +1766,8 @@ function addRow(idVal, orgVal, geneVal, ncbiVal){
 function initBatch(){
   const wrap = document.getElementById('brows');
   if(!wrap) return;
-  if(wrap.children.length > 0) return; // already initialized
+  if(wrap.children.length > 0) return;
   for(let i=0;i<3;i++) addRow();
-  // Remove auto-focus from the very first init (only addRow user-clicks should focus)
   if(document.activeElement && document.activeElement.tagName === 'INPUT'){
     document.activeElement.blur();
   }
@@ -1823,7 +1794,6 @@ function pickStyle(el, mode){
   if(mode==='lab')   labStyle   = st;
   else if(mode==='batch') batchStyle = st;
   else               customStyle = st;
-  // Show/hide text options
   const textOptsId = 'text-opts-'+mode;
   const opts = document.getElementById(textOptsId);
   if(opts) opts.style.display = st==='qr-only' ? 'none' : 'block';
@@ -1841,22 +1811,17 @@ const SC = {
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // ─── Make a single label element ──────────────────
-// style: 'qr-text' | 'qr-only' | 'text-only'
-// opts: { fsizeId, fsizeDetail, fweight, align, showId, showOrg, showGene, showDate,
-//         fsize, color }   (custom text fields)
 function mkLbl(data, sz, lines, style, opts){
   opts = opts || {};
   const cfg = SC[sz];
-  const orient = opts.orient || 'horizontal';  // 'horizontal' | 'vertical'
+  const orient = opts.orient || 'horizontal';
   const isVert = orient === 'vertical';
 
-  // For vertical labels, swap width/height so the label is tall & narrow (fits a tube).
   const W = isVert ? cfg.h : cfg.w;
   const H = isVert ? cfg.w : cfg.h;
 
   const lbl = document.createElement('div');
   lbl.className = `lbl s-${sz}` + (isVert ? ' vert' : '');
-  // position:relative so the logo can sit absolutely in the top-right corner
   lbl.style.cssText = `position:relative;background:#fff;border:.5px solid #bbb;display:flex;
     flex-direction:${isVert ? 'column' : 'row'};align-items:center;
     font-family:Arial,sans-serif;overflow:hidden;width:${W}px;height:${H}px;`;
@@ -1902,7 +1867,6 @@ function mkLbl(data, sz, lines, style, opts){
 
   } else {
     // ── QR + Text ──
-    // Vertical: QR fits the narrow side (W). Horizontal: QR matches H.
     const qPx   = isVert ? Math.min(W - 6, H * 0.55) : cfg.px;
     const fsId  = parseInt(opts.fsizeId  || 9);
     const fsDet = parseInt(opts.fsizeDetail || 6);
@@ -2123,11 +2087,6 @@ function genCustom(){
   showToast(`✅ ${n} ${styleLabel} labels generated`,'ok');
 }
 
-// ═══════════════════════════════════════════════════
-// BARCODE ENGINE — Fully rewritten, ISO verified
-// ═══════════════════════════════════════════════════
-
-// ─── Print ────────────────────────────────────────
 // ─── Print System ─────────────────────────────────
 let currentPrintSheet = '';
 let currentPrinterType = 'standard';
@@ -2176,20 +2135,16 @@ function selectPrinter(el){
   currentPrinterType = el.dataset.pt;
   const cfg = PRINTER_CONFIGS[currentPrinterType];
 
-  // Show/hide paper options
   document.querySelectorAll('[data-paper]').forEach(p=>{
     p.style.display = cfg.papers.includes(p.dataset.paper) ? 'block' : 'none';
   });
 
-  // Auto-select default paper
   const defaultPaperEl = document.querySelector(`[data-paper="${cfg.defaultPaper}"]`);
   if(defaultPaperEl){ selectPaper(defaultPaperEl); }
 
-  // Show/hide thermal options
   document.getElementById('thermal-opts-section').style.display = cfg.showThermal ? 'block' : 'none';
   if(cfg.widthHint) document.getElementById('thermal-width-hint').textContent = cfg.widthHint;
 
-  // Update columns default for thermal
   const colsSel = document.getElementById('print-cols');
   if(currentPrinterType !== 'standard'){
     colsSel.value = '1';
@@ -2220,7 +2175,6 @@ function updatePrintPreview(){
   const items = Array.from(sheet.children).slice(0,6);
   const scale = 0.55;
 
-  // Build canvas → dataURL map for source labels (cloneNode loses canvas pixels)
   const canvasMap = new Map();
   Array.from(sheet.querySelectorAll('canvas')).forEach(cv => {
     try { canvasMap.set(cv, cv.toDataURL('image/png')); } catch(_){}
@@ -2241,7 +2195,6 @@ function updatePrintPreview(){
     clone.style.display = 'flex';
     clone.style.overflow = 'hidden';
 
-    // Swap each blank cloned canvas for an <img> built from the original
     const origCanvases  = lbl.querySelectorAll('canvas');
     const cloneCanvases = clone.querySelectorAll('canvas');
     origCanvases.forEach((origCv, i) => {
@@ -2291,12 +2244,9 @@ async function executePrint(){
 
   showToast('🖨 Preparing labels…','');
 
-  // ── CRITICAL FIX: freeze all canvases → img BEFORE cloning ──
-  // cloneNode(true) does NOT copy canvas pixel data.
-  // We must convert every canvas to a data URL img first.
+  // cloneNode(true) does NOT copy canvas pixel data → convert canvases to <img> first.
   const workingSheet = sheet.cloneNode(true);
 
-  // Get all canvases from original (not clone — clone is blank)
   const origCanvases = Array.from(sheet.querySelectorAll('canvas'));
   const cloneCanvases = Array.from(workingSheet.querySelectorAll('canvas'));
 
@@ -2312,13 +2262,9 @@ async function executePrint(){
       img.style.display = 'block';
       img.style.imageRendering = 'crisp-edges';
       cloneCv.parentNode.replaceChild(img, cloneCv);
-    } catch(e) {
-      // tainted canvas fallback — leave as-is
-    }
+    } catch(e) {}
   });
 
-  // Also freeze QR img tags (QRCode.js renders both canvas + img)
-  // Remove canvas versions since we have img versions now
   workingSheet.querySelectorAll('canvas').forEach(cv => {
     const img = document.createElement('img');
     try { img.src = cv.toDataURL('image/png'); } catch(e) {}
@@ -2327,7 +2273,6 @@ async function executePrint(){
     cv.parentNode && cv.parentNode.replaceChild(img, cv);
   });
 
-  // Build grid layout style — with optional centering
   const center = document.getElementById('print-center')?.checked || false;
   const justify = center ? 'justify-content:center;align-content:center;' : '';
   const gridJustify = center ? 'justify-items:center;align-items:center;justify-content:center;' : '';
@@ -2335,7 +2280,6 @@ async function executePrint(){
     ? `display:flex;flex-wrap:wrap;gap:${gap};padding:${margin};background:#fff;${justify}`
     : `display:grid;grid-template-columns:repeat(${cols},1fr);gap:${gap};padding:${margin};background:#fff;${gridJustify}`;
 
-  // Apply per-label styles and collect HTML
   const labelHTMLs = Array.from(workingSheet.children).map(lbl => {
     lbl.style.border  = border;
     lbl.style.background = '#fff';
@@ -2349,8 +2293,6 @@ async function executePrint(){
       lbl.style.breakAfter     = 'page';
     }
     if (forceBW) lbl.style.filter = 'grayscale(100%) contrast(160%)';
-    // When the user wants center + only one label per page (typical for LARGE / CRYO):
-    //   put each label on its own page so it sits dead-centre.
     if (center && !isThermal) {
       lbl.style.pageBreakAfter = 'always';
       lbl.style.breakAfter     = 'page';
@@ -2359,10 +2301,8 @@ async function executePrint(){
     return lbl.outerHTML;
   }).join('');
 
-  // Build @page CSS
   const pageCSS = `@page{size:${pw} ${ph};margin:0;}body,html{margin:0;padding:0;}`;
 
-  // Inject into print area
   const pa = document.getElementById('print-area');
   pa.innerHTML = `
     <style>
@@ -2377,7 +2317,6 @@ async function executePrint(){
 
   closeModal('print-modal');
 
-  // Wait for images to fully load, then print
   const imgs = pa.querySelectorAll('img');
   const imgLoads = Array.from(imgs).map(img =>
     img.complete ? Promise.resolve() :
@@ -2385,7 +2324,7 @@ async function executePrint(){
   );
 
   await Promise.all(imgLoads);
-  await new Promise(r => setTimeout(r, 200)); // small settle delay
+  await new Promise(r => setTimeout(r, 200));
 
   window.print();
 
@@ -2395,7 +2334,6 @@ async function executePrint(){
   }, 1500);
 }
 
-// Keep old smartPrint as fallback for BT
 function smartPrint(sheetId){
   openPrintModal(sheetId);
 }
@@ -2443,7 +2381,6 @@ function showSR(raw){
     c.innerHTML=`<div class="sr-row"><span class="sr-k">Sample ID</span><span class="sr-v">${esc(p.ID||'—')}</span></div>
       <div class="sr-row"><span class="sr-k">Organism</span><span class="sr-v">${esc(p.ORG||'—')}</span></div>
       <div class="sr-row"><span class="sr-k">Gene</span><span class="sr-v">${esc(p.GENE||'—')}</span></div>${ncbiRow}`;
-    // ── Show "Open tracking" call-to-action with status preview ──
     const t = getTrack(sampleId);
     const statusInfo = t ? `<span style="color:${STATUS_COLORS[t.status]||'#8aafd4'};">●</span> ${STATUS_LABELS[t.status]||t.status}` : '<span style="color:#8aafd4;">●</span> No tracking yet';
     c.innerHTML += `<div style="margin-top:10px;padding:10px;background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.2);border-radius:10px;">
@@ -2489,7 +2426,7 @@ function saveTrack(sampleId, t){
   try { localStorage.setItem(TK, JSON.stringify(all)); } catch(_){}
 }
 
-let _trackCurrent = null;  // {sampleId, org, gene, ncbi}
+let _trackCurrent = null;
 function openTrackModal(sampleId, meta){
   if(!sampleId){ showToast && showToast('No Sample ID to track','warn'); return; }
   meta = meta || {};
@@ -2591,7 +2528,6 @@ function renderTrackEvents(events){
   }).join('');
 }
 
-// Search across all tracked samples (used by History tab search bar)
 function searchTracks(q){
   q = (q||'').toLowerCase();
   const all = getAllTracks();
@@ -2619,7 +2555,6 @@ function renderHist(){
     const div=document.createElement('div');div.className='hi';
     const meta=x.type==='custom'?`<div class="hm">${esc(x.data.slice(0,55))}</div>`:`<div class="hm">${esc(x.org||'')}${x.gene?' · '+esc(x.gene):''}${x.size?' · '+x.size.toUpperCase():''}</div>`;
 
-    // Tracking status badge (if this sample has a tracking entry)
     let trackStatus = '';
     if(x.id && x.id!=='—'){
       const t = getTrack(x.id);
@@ -2629,7 +2564,6 @@ function renderHist(){
       }
     }
 
-    // Track button (only for lab/batch — they have a Sample ID)
     const trackBtn = (x.type==='lab' || x.type==='batch') && x.id && x.id!=='—'
       ? `<button class="hdl" style="right:36px;background:rgba(0,229,255,0.15);color:var(--cyan);border:1px solid rgba(0,229,255,0.4);border-radius:6px;padding:3px 8px;font-size:11px;width:auto;height:auto;" onclick="openTrackFromHist('${esc(x.id)}','${esc(x.org||'')}','${esc(x.gene||'')}','${esc(x.ncbi||'')}',event)">⌖ Track</button>`
       : '';
@@ -2745,17 +2679,12 @@ function selPay(el,m){
   document.querySelectorAll('.pay-m').forEach(x=>x.classList.remove('on'));
   el.classList.add('on');
 }
-// ── Backend base URL (auto: same origin) ──────────
 const TT_API_BASE = (function(){
-  try {
-    // If served via the Emergent preview / production: same origin.
-    return window.location.origin;
-  } catch(e){ return ''; }
+  try { return window.location.origin; } catch(e){ return ''; }
 })();
 
 async function processPay(){
-  // Server-authoritative plan (price comes from server — never trust client)
-  const plan = selPlanType; // 'weekly' | 'monthly' | 'annual'
+  const plan = selPlanType;
   const descMap = {
     weekly:  `TubeTag Pro — Weekly ₹${PRO_PRICE_WEEKLY}`,
     monthly: `TubeTag Pro — Monthly ₹${PRO_PRICE_MONTHLY}`,
@@ -2763,7 +2692,6 @@ async function processPay(){
   };
   const desc = descMap[plan] || descMap.monthly;
 
-  // 1) Ask our backend to create a real Razorpay order
   let orderResp;
   try {
     const r = await fetch(`${TT_API_BASE}/api/razorpay/create-order`, {
@@ -2786,7 +2714,6 @@ async function processPay(){
     return;
   }
 
-  // 2) Open Razorpay checkout with the server-issued order_id
   const options = {
     key: orderResp.razorpay_key_id,
     amount: orderResp.amount,
@@ -2797,7 +2724,6 @@ async function processPay(){
     image: 'icons/icon-192.png',
 
     handler: async function(response){
-      // 3) Verify the signature server-side (THE security gate)
       try {
         const v = await fetch(`${TT_API_BASE}/api/razorpay/verify-payment`, {
           method:'POST',
@@ -2851,7 +2777,6 @@ async function processPay(){
   rzp.open();
 }
 
-// ── Activate Pro after successful payment ─────────
 function activatePro(plan, paymentId){
   isPro = true;
   localStorage.setItem('tt_pro', 'true');
@@ -2862,9 +2787,8 @@ function activatePro(plan, paymentId){
   updatePlanUI();
   updateQuota();
 
-  // Update success modal content
   document.getElementById('success-pay-id').textContent = paymentId;
-  document.getElementById('success-email').textContent = user.email || 'your email';
+  document.getElementById('success-email').textContent = (user && user.email) || 'your email';
 
   showToast('🎉 TubeTag Pro activated! All features unlocked.', 'gold');
   setTimeout(()=>openModal('success-modal'), 500);
@@ -2909,14 +2833,14 @@ function showToast(msg,type){
 
 // ─── Init ─────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',()=>{
-  // Modal overlay: tap outside to close
   document.querySelectorAll('.modal-overlay').forEach(m=>{
     m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('vis');});
   });
   // Launch app if already logged in
   if(user) launchApp();
   if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
-  initGoogle(); 
+  // Draw the Google sign-in button
+  initGoogle();
 });
 </script>
 </body>
