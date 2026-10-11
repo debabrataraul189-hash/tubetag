@@ -441,8 +441,13 @@ textarea{resize:vertical;min-height:70px;line-height:1.5;}
     <div style="font-family:'Space Mono',monospace;font-size:11px;color:#4a6080;letter-spacing:3px;margin-bottom:32px;">SMART LAB QR LABELS</div>
 
     <div style="background:#0d1526;border:1px solid #1a2d5a;border-radius:16px;padding:24px 20px;margin-bottom:16px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,#00e5ff,#7c3aed,transparent);"></div>
-      <div style="font-size:13px;color:#8aafd4;line-height:1.7;margin-bottom:20px;">Sign in to sync your labels across devices and unlock <strong style="color:#f5c842;">Pro features</strong>.</div>
+  <div style="position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,#00e5ff,#7c3aed,transparent);"></div>
+  <div style="font-size:13px;color:#8aafd4;line-height:1.7;margin-bottom:20px;">Sign in to sync your labels across devices and unlock <strong style="color:#f5c842;">Pro features</strong>.</div>
+
+  <div id="g-btn-slot" style="display:flex;justify-content:center;margin-bottom:10px;"></div>
+
+  <button class="skip-btn" onclick="skipLogin()" style="display:block;margin:0 auto;">Continue as Guest</button>
+</div>
 
       <!-- Google Sign In -->
       <div id="g-btn-slot" style="display:flex;justify-content:center;margin-bottom:10px;"></div>
