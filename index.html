@@ -436,17 +436,41 @@ textarea{resize:vertical;min-height:70px;line-height:1.5;}
 <!-- ══════════ AUTH SCREEN ══════════ -->
 <div id="auth-screen" style="display:flex;flex-direction:column;height:100vh;background:var(--bg);position:relative;z-index:10;align-items:center;justify-content:center;padding:24px;">
   <div style="text-align:center;max-width:360px;width:100%;">
-    <!-- Logo -->
     <div style="font-size:3rem;font-weight:700;background:linear-gradient(135deg,#00e5ff,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-2px;margin-bottom:6px;">TubeTag</div>
     <div style="font-family:'Space Mono',monospace;font-size:11px;color:#4a6080;letter-spacing:3px;margin-bottom:32px;">SMART LAB QR LABELS</div>
 
     <div style="background:#0d1526;border:1px solid #1a2d5a;border-radius:16px;padding:24px 20px;margin-bottom:16px;position:relative;overflow:hidden;">
-  <div style="position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,#00e5ff,#7c3aed,transparent);"></div>
-  <div style="font-size:13px;color:#8aafd4;line-height:1.7;margin-bottom:20px;">Sign in to sync your labels across devices and unlock <strong style="color:#f5c842;">Pro features</strong>.</div>
+      <div style="position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,#00e5ff,#7c3aed,transparent);"></div>
+      <div style="font-size:13px;color:#8aafd4;line-height:1.7;margin-bottom:20px;">Sign in to sync your labels across devices.</div>
 
-  <div id="g-btn-slot" style="display:flex;justify-content:center;margin-bottom:10px;"></div>
+      <div id="g-btn-slot" style="display:flex;justify-content:center;margin-bottom:10px;min-height:44px;"></div>
 
-  <button class="skip-btn" onclick="skipLogin()" style="display:block;margin:0 auto;">Continue as Guest</button>
+      <button class="skip-btn" onclick="skipLogin()" style="display:block;margin:0 auto;">Continue as Guest</button>
+    </div>
+
+    <div style="font-size:11px;color:#3a5070;line-height:1.6;">
+      Your data stays on your device
+    </div>
+  </div>
+</div>
+<div id="auth-screen" style="display:flex;flex-direction:column;height:100vh;background:var(--bg);position:relative;z-index:10;align-items:center;justify-content:center;padding:24px;">
+  <div style="text-align:center;max-width:360px;width:100%;">
+    <div style="font-size:3rem;font-weight:700;background:linear-gradient(135deg,#00e5ff,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-2px;margin-bottom:6px;">TubeTag</div>
+    <div style="font-family:'Space Mono',monospace;font-size:11px;color:#4a6080;letter-spacing:3px;margin-bottom:32px;">SMART LAB QR LABELS</div>
+
+    <div style="background:#0d1526;border:1px solid #1a2d5a;border-radius:16px;padding:24px 20px;margin-bottom:16px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,#00e5ff,#7c3aed,transparent);"></div>
+      <div style="font-size:13px;color:#8aafd4;line-height:1.7;margin-bottom:20px;">Sign in to sync your labels across devices.</div>
+
+      <div id="g-btn-slot" style="display:flex;justify-content:center;margin-bottom:10px;min-height:44px;"></div>
+
+      <button class="skip-btn" onclick="skipLogin()" style="display:block;margin:0 auto;">Continue as Guest</button>
+    </div>
+
+    <div style="font-size:11px;color:#3a5070;line-height:1.6;">
+      Your data stays on your device
+    </div>
+  </div>
 </div>
 
       <!-- Google Sign In -->
@@ -1480,13 +1504,12 @@ function checkDayReset(){
 }
 
 // ─── Auth ─────────────────────────────────────────
-function googleLogin(){
-  const GOOGLE_CLIENT_ID = 'PASTE_YOUR_CLIENT_ID.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = '902365956036-prii5q50gf14cr3jqne38i3pofic1435.apps.googleusercontent.com';
 
 function initGoogle(){
   if(!window.google || !google.accounts){ setTimeout(initGoogle, 300); return; }
   google.accounts.id.initialize({
-    client_id: 902365956036-prii5q50gf14cr3jqne38i3pofic1435.apps.googleusercontent.com,
+    client_id: GOOGLE_CLIENT_ID,
     callback: handleGoogleCredential,
     auto_select: false
   });
@@ -1516,15 +1539,20 @@ function handleGoogleCredential(resp){
   launchApp();
 }
 
+function skipLogin(){
+  user = {name:'Guest User', email:'', initial:'G'};
+  launchApp();
+}
+
 function logout(){
   if(!confirm('Log out?')) return;
   if(window.google && google.accounts) google.accounts.id.disableAutoSelect();
   localStorage.removeItem('tt_user');
-  user=null;
-  document.getElementById('main-app').style.display='none';
-  document.getElementById('auth-screen').style.display='flex';
+  user = null;
+  document.getElementById('main-app').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
+  initGoogle();
 }
-
 function launchApp(){
   document.getElementById('auth-screen').style.display='none';
   document.getElementById('main-app').style.display='flex';
